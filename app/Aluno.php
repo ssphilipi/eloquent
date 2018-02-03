@@ -21,12 +21,23 @@ class Aluno extends Model
 
 
 
-    public function exercicio2($data){
+    public static function exercicio4($data){
+      $aluno_novo = new Aluno;
+      $aluno_novo->nome = $data->nome;
+      $aluno_novo->registro = $data->registro;
+      $aluno_novo->serie = $data->serie;
+      $aluno_novo->turma = $data->turma;
+      $aluno_novo->faltas = $data->faltas;
+      $aluno_novo->media = $data->media;
+
+      $aluno_novo->save();
 
     }
 
-    public function exercicio5(Aluno $aluno){
-
+    public static function exercicio5(Aluno $aluno){
+      Aluno::where('media','>',6.9)->update(['status'=>'aprovado']);
+      Aluno::where('media','<',5)->update(['status'=>'reprovado']);
+      Aluno::where('media','<',6.9)->where('media','>',5)->update(['status'=>'recuperação']);
     }
 
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+Use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CreateProfessorsTable extends Migration
 {
@@ -24,6 +25,7 @@ class CreateProfessorsTable extends Migration
             $table->integer('horas_aula')->unsigned();
             $table->decimal('salario', 7, 2);
             $table->string('email');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

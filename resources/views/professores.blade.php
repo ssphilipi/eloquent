@@ -3,7 +3,7 @@
 
 
 @section('content')
-       
+
 
 <div class="well panel col-xs-12 col-md-12">
 
@@ -17,7 +17,7 @@
 
     <div class="">
 
-      <form class="form-horizontal" action="" enctype="multipart/form-data" method="POST">
+      <form class="form-horizontal" action="{{action('ProfessorController@insereProfessor')}}" enctype="multipart/form-data" method="POST">
           {{ csrf_field() }}
           {{method_field('POST')}}
 
@@ -27,8 +27,8 @@
             <div class="col-xs-1">
               <input type="integer" class="form-control" name="credencial" id="credencial" placeholder="80000000">
             </div>
-          
-          
+
+
             <label for="nome" class="col-xs-2 control-label">Nome:</label>
             <div class="col-xs-2">
               <input type="text" class="form-control" name="nome" id="nome" placeholder="Joel Santana">
@@ -54,13 +54,13 @@
               <input type="integer" class="form-control" name="total_alunos" id="total_alunos" placeholder="250">
             </div>
 
-         
+
             <label for="aprovados" class="col-xs-2 control-label">Aprovados:</label>
             <div class="col-xs-1">
               <input type="integer" class="form-control" name="aprovados" id="aprovados" placeholder="0 - 50">
             </div>
           </div>
-      
+
           <br>
         <!-- horas-salario-email -->
           <div class="form-group">
@@ -75,7 +75,7 @@
               <input type="float" class="form-control" name="salario" id="salario" placeholder="3250.00">
             </div>
 
-         
+
             <label for="email" class="col-xs-2 control-label">Email:</label>
             <div class="col-xs-3">
               <input type="text" class="form-control" name="email" id="email" placeholder="exemplo@exemplo.com">
@@ -116,23 +116,24 @@
           </thead>
 
           <tbody class="">
-            
-              
+
+            @foreach ($professors as $professor)
+
                 <tr>
-                  <td>id</td>
-                  <td>credencial</td>
-                  <td>Nome</td>
-                  <td>Disciplina</td>
-                  <td>Qnt de Turmas</td>
-                  <td>Total Alunos</td>
-                  <td>Aprovados</td>
-                  <td>Horas/Aula</td>
-                  <td>Salário</td>
-                  <td>Email@email.com</td>
+                  <td>{{$professor->id}}</td>
+                  <td>{{$professor->credencial}}</td>
+                  <td>{{$professor->nome}}</td>
+                  <td>{{$professor->disciplina}}</td>
+                  <td>{{$professor->quantidade_turmas}}</td>
+                  <td>{{$professor->total_alunos}}</td>
+                  <td>{{$professor->aprovados}}</td>
+                  <td>{{$professor->horas_aula}}</td>
+                  <td>{{$professor->salario}}</td>
+                  <td>{{$professor->email}}</td>
                   <td class="col-xs-2">
-                     
-                      <form class="col-xs-12" action="" method="POST">
-                          <a class="btn btn-md btn-info" data-toggle="modal" data-target="#modal-editar-aluno-id">
+
+                      <form class="col-xs-12" action="{{action('ProfessorController@deletaProfessor', ['id' => $professor->id])}}" method="POST">
+                          <a class="btn btn-md btn-info" data-toggle="modal" data-target="#modal-editar-professor-{{$professor->id}}">
                             <i class="material-icons" data-toggle="tooltip" data-placement="top" data-title="Editar">edit</i>
                           </a>
 
@@ -145,11 +146,12 @@
                           </button>
                       </form>
 
-                      
+
                     </td>
                   </tr>
-             
-            
+
+            @endforeach
+
           </tbody>
         </table>
       </div>
@@ -157,61 +159,78 @@
 
 
     <!--Modal editar aluno  -->
-    
-        <div id="modal-editar-aluno-id" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+
+    @foreach($professors as $professor)
+
+        <div id="modal-editar-professor-{{$professor->id}}" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
 
                     <div class="modal-header">
                         <button type="button" class="close material-icons" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">close</span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel2">Atualizar Aluno</h4>
+                        <h4 class="modal-title" id="myModalLabel2">Atualizar Professor</h4>
                     </div>
-                    <form class="form-horizontal form-label-left input_mask" action="" enctype="multipart/form-data" method="POST">
+                    <form class="form-horizontal form-label-left input_mask" action="{{action('ProfessorController@atualizaProfessor', ['id' => $professor->id])}}" enctype="multipart/form-data" method="POST">
                         {{ csrf_field() }}
                         {{method_field('PUT')}}
                         <div class="modal-body">
                             <div class="col-md-12 has-feedback">
                                 <label for="">Nome</label>
-                                <input type="text" class="form-control" name="nome" id="inputSuccess2" value="">
+                                <input type="text" class="form-control" name="nome" id="inputSuccess2" value="{{$professor->nome}}">
                             </div>
                             <br><br><br>
                             <div class="col-md-12 has-feedback">
-                                <label for="">Série</label>
-                                <input type="integer" class="form-control" name="disciplina" id="inputSuccess2" value="">
+                                <label for="">Disciplina</label>
+                                <input type="integer" class="form-control" name="disciplina" id="inputSuccess2" value="{{$professor->disciplina}}">
                             </div>
                             <br><br><br>
                             <div class="col-md-12 has-feedback">
-                                <label for="">Turma</label>
-                                <input type="integer" class="form-control" name="turma" id="inputSuccess2" value="">
+                                <label for="">Quantidade de Turmas</label>
+                                <input type="integer" class="form-control" name="quantidade_turmas" id="inputSuccess2" value="{{$professor->quantidade_turmas}}">
                             </div>
                             <br><br><br>
                             <div class="col-md-12 has-feedback">
-                                <label for="">Média</label>
-                                <input type="float" class="form-control" name="media" id="inputSuccess2" value="">
+                                <label for="">Total de Alunos</label>
+                                <input type="integer" class="form-control" name="total_alunos" id="inputSuccess2" value="{{$professor->total_alunos}}">
                             </div>
                             <br><br><br>
-
                             <div class="col-md-12 has-feedback">
                                 <label for="">Aprovados</label>
-                                <input type="integer" class="form-control" name="aprovados" id="inputSuccess2" value="">
+                                <input type="integer" class="form-control" name="aprovados" id="inputSuccess2" value="{{$professor->aprovados}}">
                             </div>
                             <br><br><br>
-
+                            <div class="col-md-12 has-feedback">
+                                <label for="">Horas de Aula</label>
+                                <input type="integer" class="form-control" name="horas_aula" id="inputSuccess2" value="{{$professor->horas_aula}}">
+                            </div>
+                            <br><br><br>
+                            <div class="col-md-12 has-feedback">
+                                <label for="">Salario</label>
+                                <input type="decimal" class="form-control" name="salario" id="inputSuccess2" value="{{$professor->salario}}">
+                            </div>
+                            <br><br><br>
+                            <div class="col-md-12 has-feedback">
+                                <label for="">Email</label>
+                                <input type="string" class="form-control" name="email" id="inputSuccess2" value="{{$professor->email}}">
+                            </div>
+                            <br><br><br>
                         </div>
                         <div class="modal-footer">
-                            
+
                             <button type="submit" class="btn btn-success waves-effect waves-light">Atualizar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    
+
+      @endforeach
+
 
 {!! csrf_field() !!}
 
-  
+
 
 
 </div>

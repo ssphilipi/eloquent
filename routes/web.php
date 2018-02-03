@@ -28,3 +28,6 @@ Route::post('alunos\exemplo','AlunoController@getAluno');
 //ProfessorController
 
 Route::get('professores', 'ProfessorController@index');
+Route::post('professores\insere', 'ProfessorController@insereProfessor');
+Route::delete('professores\deleta\{id}', 'ProfessorController@deletaProfessor');
+Route::put('professores\atualiza\{id}', 'ProfessorController@atualizaProfessor');

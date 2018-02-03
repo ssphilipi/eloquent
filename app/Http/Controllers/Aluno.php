@@ -14,25 +14,21 @@ class AlunoController extends Controller
     {
         $alunos = Aluno::all();
 
+        foreach($alunos as $aluno){
+          $aluno->exercicio5($aluno);
+        };
+
         return view('alunos',['alunos' => $alunos]);
     }
 
 
     public function insereAluno(Request $request)
     {
-        $aluno_novo = new Aluno;
 
-        $aluno_novo->nome = $request->nome;
-        $aluno_novo->registro = $request->registro;
-        $aluno_novo->serie = $request->serie;
-        $aluno_novo->turma = $request->turma;
-        $aluno_novo->faltas = $request->faltas;
-        // $aluno_novo->status = $request->status;
-        $aluno_novo->media = $request->media;
-
-        $aluno_novo->save();
+        $aluno_novo = Aluno::exercicio4($request);
 
         return back();
+
     }
 
 
